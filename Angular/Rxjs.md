@@ -84,7 +84,7 @@ cityList$.subscribe((city) => console.log(city)) // Delhi, Mumbai, Chennai
 d) Using `interval()` & `timer()`:
 
 - `interval(1000)`: emits sequential numbers every 1 second indefinitely.
-- `timer(5000)`: emits once after 5 seconds.
+- `timer(5000)`: emits once after 5 seconds (or start after delay and then periodically if given a second arg).
 
 ## 5. RxJS Best Practices in Angular
 
@@ -147,7 +147,7 @@ Key points:
 
 ## next()
 
-`next` is a method on `Subject` or `Subscriber` used to emit a value to observers.
+`next` is a method on a `Subject` or a `Subscriber` used to emit a value to observers.
 
 Example with Subject:
 
@@ -185,3 +185,31 @@ Quick comparison:
 
 - pipe: chains operators to transform/filter/handle values (processing).
 - next: emits a value to subscribers (pushing values into a stream).
+
+subscribe has up to 3 handlers:
+
+```typescript
+observable.subscribe(
+  next, // called when a value is emitted
+  error, // called if an error happens
+  complete, // called when the stream finishes
+)
+```
+
+What next does:
+
+- Receives the emitted value.
+- Runs zero or more times.
+- This is where you usually handle data.
+
+Example:
+
+```typescript
+import { of } from 'rxjs'
+
+of(1, 2, 3).subscribe({
+  next: (value) => console.log(value),
+  error: (err) => console.error(err),
+  complete: () => console.log('Done'),
+})
+```
